@@ -152,3 +152,7 @@ REST_FRAMEWORK = {
     "DEFAULT_VERSION": "v1",  # 默认的版本
     "ALLOWED_VERSION": ["v1", "v2"],  # 当前支持版本的类型
 }
+
+# OPENAI 配置
+API_KEY = 'sk-ozXz3pIwWDVAkHvnB82e2e9bA4Aa4615BbF48210F5984a36'
+BASE_URL = 'https://api.zetatechs.com/v1'

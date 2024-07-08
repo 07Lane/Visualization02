@@ -1,12 +1,21 @@
 import uuid
 
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from drf_yasg import openapi
+
+from Visualization02.settings import API_KEY, BASE_URL
+from .models import ChatMessage
 from rest_framework import serializers, exceptions
 from rest_framework.versioning import QueryParameterVersioning  # 配置api接口的版本（version），用于GET参数传递，通过request.version取到
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from openai import OpenAI
 
 from accounts import models
 from common.auth import ParamAuthentication, HeaderAuthentication
@@ -123,7 +132,6 @@ class LogoutView(APIView):
     # 经过认证之后才能进行登出操作
     authentication_classes = [ParamAuthentication, HeaderAuthentication]
 
-
     # Swagger 配置
     swagger_schema_fields = {
         'responses': {
@@ -150,7 +158,6 @@ class DeleteView(APIView):
     # 经过认证之后才能进行销户操作
     authentication_classes = [ParamAuthentication, HeaderAuthentication]
 
-
     # Swagger 配置
     swagger_schema_fields = {
         'responses': {
@@ -168,3 +175,45 @@ class DeleteView(APIView):
             return Response({"code": 1006, "success": "销户成功"})
         else:
             return Response({"code": 2001, "msg": "未找到用户或认证信息无效"}, status=401)
+
+
+# ChatBot--------------------------------------------------------------------
+
+# # 初始化 OpenAI 客戶端
+# client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
+#
+#
+# # 测试聊天功能
+# @login_required
+# @method_decorator(csrf_exempt)
+# def chat_interface(request):
+#     return render(request, 'chat.html')
+#
+#
+# class ChatView(LoginRequiredMixin, APIView):
+#     # @method_decorator(csrf_exempt)
+#     # def dispatch(self, request, *args, **kwargs):
+#     #     return super().dispatch(request, *args, **kwargs)
+#
+#     def post(self, request):
+#         user_message = request.data.get('message', '')
+#         if user_message:
+#             response = client.chat.completions.create(
+#                 model="gpt-3.5",
+#                 messages=[{"role": "user", "content": user_message}],
+#                 max_tokens=3000
+#             )
+#             response_text = response.choices[0].message['content']
+#
+#             chat_message = ChatMessage(
+#                 user=request.user,
+#                 message=user_message,
+#                 response=response_text
+#             )
+#             chat_message.save()
+#
+#             return Response({'message': user_message, 'response': response_text}, status=200)
+#         return Response({'error': '没有可以提供的数据'}, status=400)
+#
+#     def get(self, request):
+#         return Response({'error': '错误的请求方式，请用POST来请求'}, status=400)

@@ -18,6 +18,7 @@ from django.urls import path
 from rest_framework.documentation import include_docs_urls
 
 from accounts import views
+# from accounts.views import chat_interface
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +27,6 @@ urlpatterns = [
     path('accounts/login/', views.LoginView.as_view(), name='login'),
     path('accounts/logout/', views.LogoutView.as_view(), name='logout'),
     path('accounts/delete/', views.DeleteView.as_view(), name='logout'),
+    # path('accounts/chat/', views.ChatView.as_view(), name='chat'),
+    # path('accounts/chat_interface/', chat_interface, name='chat_interface'),
 ]
