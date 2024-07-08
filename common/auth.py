@@ -5,7 +5,7 @@ from accounts.models import UserInfo
 
 # 执行每个认证类中的authenticate方法;
 # ->认证成功或失败，不会在执行后续的认证类
-# ->返回None，执行后续的认证类。
+# ->返回None，执行后续的认证类
 
 class ParamAuthentication(BaseAuthentication):
     def authenticate(self, request):

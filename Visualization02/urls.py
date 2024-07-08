@@ -18,7 +18,7 @@ from django.urls import path
 from rest_framework.documentation import include_docs_urls
 
 from accounts import views
-# from accounts.views import chat_interface
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
