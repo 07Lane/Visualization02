@@ -177,7 +177,7 @@ class DeleteView(APIView):
             return Response({"code": 2001, "msg": "未找到用户或认证信息无效"}, status=401)
 
 
-# ChatBot--------------------------------------------------------------------
+# ChatBot-------------------------------------------------------------------
 
 # # 初始化 OpenAI 客戶端
 # client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
